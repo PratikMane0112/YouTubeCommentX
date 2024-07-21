@@ -23,8 +23,6 @@ def index():
 def extract():
     return render_template('extract.html')
 
-YOUTUBE_API_KEY = '';
-
 @app.route('/extract_comments', methods=['POST'])
 
 
