@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, send_file, redirect
 import pandas as pd
 import requests
@@ -11,8 +10,18 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import os
 from io import BytesIO
+import spacy
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+
+def ensure_spacy_model():
+    try:
+        spacy.load('en_core_web_sm')
+    except OSError:
+        from spacy.cli import download
+        download('en_core_web_sm')
+
+ensure_spacy_model()
 
 @app.route('/')
 def index():
