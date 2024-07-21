@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect
 import pandas as pd
 import requests
 import re
@@ -10,8 +10,9 @@ import string
 from collections import Counter
 import matplotlib.pyplot as plt
 import os
+from io import BytesIO
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 @app.route('/')
 def index():
@@ -250,10 +251,12 @@ def timeBasedAnalyse():
     return render_template('timeBasedAnalyse.html')
 
 custom_sentiment_data = {}
-with open('sentimentDataSet.txt', 'r') as file:
+with open('YouTubeCommentX/emotion.txt', 'r') as file:
     for line in file:
-        word, sentiment = line.strip().split()
-        custom_sentiment_data[word] = sentiment
+        parts = line.strip().split()
+        if len(parts) == 2:  # Ensure there are exactly two parts to unpack
+            word, sentiment = parts
+            custom_sentiment_data[word] = sentiment
 
 def analyze_comments(comments, publish_date):
     results_by_time_frame = {}
