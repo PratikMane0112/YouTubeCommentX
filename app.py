@@ -14,15 +14,6 @@ import spacy
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-def ensure_spacy_model():
-    try:
-        spacy.load('en_core_web_sm')
-    except OSError:
-        from spacy.cli import download
-        download('en_core_web_sm')
-
-ensure_spacy_model()
-
 @app.route('/')
 def index():
     return render_template('main.html')
@@ -258,7 +249,7 @@ def timeBasedAnalyse():
     return render_template('timeBasedAnalyse.html')
 
 custom_sentiment_data = {}
-with open('YouTubeCommentX/emotion.txt', 'r') as file:
+with open('emotion.txt', 'r') as file:
     for line in file:
         parts = line.strip().split()
         if len(parts) == 2:  # Ensure there are exactly two parts to unpack
@@ -350,7 +341,7 @@ def analyzeforGraph():
 
 
             emotion_list = []
-            with open('YouTubeCommentX/emotion.txt', 'r') as file:
+            with open('emotion.txt', 'r') as file:
                 for line in file:
                     clear_line = line.strip()
                     if ':' in clear_line:
@@ -361,7 +352,7 @@ def analyzeforGraph():
 
 
             sarcasm_list = []
-            with open('YouTubeCommentX/sarcasm_lexicon.txt', 'r') as file:
+            with open('sarcasm_lexicon.txt', 'r') as file:
                 sarcasm_lexicon = [line.strip() for line in file]
 
             for word in final_words:
@@ -370,7 +361,7 @@ def analyzeforGraph():
 
 
             slang_list = []
-            with open('YouTubeCommentX/slang_lexicon.txt', 'r') as file:
+            with open('slang_lexicon.txt', 'r') as file:
                 slang_lexicon = [line.strip() for line in file]
 
             for word in final_words:
